@@ -1,21 +1,89 @@
 'use strict'
 
-// 1
-let Tc = prompt('Введите тепературу');
-let Tf = (9 / 5) * Tc + 32;
-alert (Tf);
+// 1.1
+// es5
 
-// 2
-let name = 'Василий'
-let admin = name;
-console.log(admin);
+function Product(name, price) {
+    this.price = price;
+    this.name = name;
+    
+}
 
-// 3
+Product.prototype.make25PercentDiscount = function (){
+    alert(this.price / 100 * 25);
+}
 
-/* 
-1. 10 + 10 будет 20 и прибваив '10' мы получили '2010' произошло приведение типов
-2. 10 + '10' будет '1010' произошло приведение типов после мы опять прибавили 10 и получили '101010'
-3. 10 + 10 будет 20 и прибваив +'10' мы получили 30, т.к  +  перед '10' превратил значаение string в number
-4. унарный минус делает число отрицательным
-5. получилось NaN, во первых числа пишутся без "", во вторых числа с десятичными, сотыми и тысячными должны ограничиваться  . (2.5)   
-*/
+let obj1 = new Product(150);
+obj1.make25PercentDiscount();
+
+
+
+// es6
+class Product{
+    constructor(price, name){
+        this.price = price;
+        this.name = name;        
+    }
+
+    make25PercentDiscount () {
+        alert(this.price / 100 * 25);
+    }
+}
+
+let obj1 = new Product(150);
+obj1.make25PercentDiscount();
+
+
+// 1.2
+// es5
+
+function Post(author, text, date) {
+    this.author = author;
+    this.text = text;
+    this.date = date;
+}
+
+Post.prototype.edit = function() {
+    alert(this.text);
+}
+
+function AttachedPost(author, text, date) {
+    Post.call(this, author, text, date);
+    this.highlighted = false;
+}
+
+AttachedPost.prototype = Object.create(Post.prototype);
+AttachedPost.prototype.constructor = AttachedPost;
+
+AttachedPost.prototype.makeTextHighlighted = function(){
+    this.highlighted = true;
+}
+
+let attachedPostObj = new AttachedPost('Bakman','text1');
+attachedPostObj.edit();
+
+// es6
+ class Post {
+    constructor(author, text, date){
+        this.author = author;
+        this.text = text;
+        this.date = date;         
+     }
+     edit(){
+        alert(this.text);
+    }
+
+ }
+
+ class AttachedPost extends Post {
+     constructor(author, text, date){
+         super(author, text, date);
+         this.highlighted = false;
+     }
+     makeTextHighlighted() {
+        this.highlighted = true;
+     }
+ }
+
+let attachedPostObj = new AttachedPost('lermotnov','text2');
+attachedPostObj.edit(); 
